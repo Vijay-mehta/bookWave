@@ -33,19 +33,6 @@ export async function POST(req) {
       );
     }
 
-    username = username.replace(/^"|"$/g, '');
-    email = email.replace(/^"|"$/g, '');
-    password = password.replace(/^"|"$/g, '');
-
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-console.log("email",email)
-if (!emailRegex.test(email)){
-      return NextResponse.json(
-        { error: "Invalid email address" },
-        { status: 400 }
-      );
-    }
-
     const salt = await bcryptjs.genSalt(10);
     const hashedPassword = await bcryptjs.hash(password, salt);
 
@@ -60,7 +47,6 @@ if (!emailRegex.test(email)){
     });
 
     const savedUser = await newUser.save();
-console.log("savedUser",savedUser)
     return NextResponse.json(
       {
         message: "User created successfully",
